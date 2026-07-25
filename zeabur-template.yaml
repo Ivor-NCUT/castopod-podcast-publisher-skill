@@ -47,8 +47,8 @@ spec:
         dependencies:
           - mariadb
         source:
-          source: GITHUB
-          repo: 1311954419
+          source: ARBITRARY_GIT
+          gitURL: https://github.com/Ivor-NCUT/castopod-podcast-publisher-skill.git
           branch: main
         ports:
           - id: web
