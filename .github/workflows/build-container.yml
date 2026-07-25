@@ -27,5 +27,5 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh api --method PATCH
-          /user/packages/container/castopod-podcast-publisher-skill
+          /users/Ivor-NCUT/packages/container/castopod-podcast-publisher-skill
           -f visibility=public
