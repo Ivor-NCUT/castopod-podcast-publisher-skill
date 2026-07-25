@@ -1,0 +1,94 @@
+# yaml-language-server: $schema=https://schema.zeabur.app/template.json
+apiVersion: zeabur.com/v1
+kind: Template
+metadata:
+  name: Castopod
+spec:
+  description: Open-source podcast hosting with its REST API enabled.
+  variables:
+    - key: PUBLIC_DOMAIN
+      type: DOMAIN
+      name: Castopod domain
+      description: Zeabur-generated public domain.
+  services:
+    - name: mariadb
+      template: PREBUILT
+      spec:
+        source:
+          image: mariadb:11.4
+        ports:
+          - id: database
+            port: 3306
+            type: TCP
+        volumes:
+          - id: data
+            dir: /var/lib/mysql
+        env:
+          MARIADB_DATABASE:
+            default: castopod
+            expose: true
+          MARIADB_HOST:
+            default: ${CONTAINER_HOSTNAME}
+            expose: true
+          MARIADB_PASSWORD:
+            default: ${PASSWORD}
+            expose: true
+          MARIADB_ROOT_PASSWORD:
+            default: ${PASSWORD}
+          MARIADB_USER:
+            default: castopod
+            expose: true
+        healthCheck:
+          type: TCP
+          port: database
+    - name: castopod
+      template: GIT
+      spec:
+        dependencies:
+          - mariadb
+        source:
+          source: GITHUB
+          repo: 1311954419
+          branch: main
+        ports:
+          - id: web
+            port: 8080
+            type: HTTP
+        volumes:
+          - id: media
+            dir: /var/www/castopod/public/media
+        env:
+          CP_ANALYTICS_SALT:
+            default: ${PASSWORD}
+          CP_BASEURL:
+            default: https://${ZEABUR_WEB_DOMAIN}
+          CP_CACHE_HANDLER:
+            default: file
+          CP_DATABASE_HOSTNAME:
+            default: ${MARIADB_HOST}
+          CP_DATABASE_NAME:
+            default: ${MARIADB_DATABASE}
+          CP_DATABASE_PASSWORD:
+            default: ${MARIADB_PASSWORD}
+          CP_DATABASE_USERNAME:
+            default: ${MARIADB_USER}
+          CP_MAX_BODY_SIZE:
+            default: 512M
+          CP_PHP_MEMORY_LIMIT:
+            default: 512M
+          CP_REST_API_PASSWORD:
+            default: ${PASSWORD}
+          CP_REST_API_USERNAME:
+            default: codex-publisher
+          CP_TIMEOUT:
+            default: "900"
+        healthCheck:
+          type: HTTP
+          port: web
+          http:
+            path: /
+      domainKey: PUBLIC_DOMAIN
+  instructions:
+    - type: DOMAIN
+      title: Castopod
+      content: ${PUBLIC_DOMAIN}
