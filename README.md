@@ -2,6 +2,10 @@
 
 Publish local MP3/M4A audio, optional episode artwork, and Markdown Shownotes to Castopod from Codex. Castopod updates the podcast RSS feed, which subscribed platforms can then pull automatically.
 
+The included `Dockerfile` inherits the official image and only enables the
+Castopod REST API from `CP_REST_API_USERNAME` and
+`CP_REST_API_PASSWORD`.
+
 ## Install
 
 ```bash
@@ -27,3 +31,5 @@ The script creates a draft unless `--publish-now` or `--schedule` is supplied.
 - `SKILL.md`: Codex workflow and safety rules.
 - `scripts/publish_episode.sh`: deterministic Castopod API publisher.
 - `agents/openai.yaml`: Codex UI metadata.
+- `Dockerfile`: minimal Zeabur image with REST API configuration enabled.
+- `zeabur-template.yaml`: MariaDB, persistent media, and a Zeabur domain.
