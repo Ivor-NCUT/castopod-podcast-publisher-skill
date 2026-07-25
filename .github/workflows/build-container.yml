@@ -22,3 +22,10 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/ivor-ncut/castopod-podcast-publisher-skill:4.3.2-api
+      - name: Make container public
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh api --method PATCH
+          /user/packages/container/castopod-podcast-publisher-skill
+          -f visibility=public
