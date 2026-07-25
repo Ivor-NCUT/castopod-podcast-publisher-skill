@@ -36,4 +36,3 @@ The script creates a draft unless `--publish-now` or `--schedule` is supplied.
 - `scripts/publish_episode.sh`: deterministic Castopod API publisher.
 - `agents/openai.yaml`: Codex UI metadata.
 - `Dockerfile`: minimal Zeabur image with REST API configuration enabled.
-- `zeabur-template.yaml`: MariaDB, persistent media, and a Zeabur domain.
