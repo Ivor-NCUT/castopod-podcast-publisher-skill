@@ -42,14 +42,12 @@ spec:
           type: TCP
           port: database
     - name: castopod
-      template: GIT
+      template: PREBUILT
       spec:
         dependencies:
           - mariadb
         source:
-          source: ARBITRARY_GIT
-          gitURL: https://github.com/Ivor-NCUT/castopod-podcast-publisher-skill.git
-          branch: main
+          image: ghcr.io/ivor-ncut/castopod-podcast-publisher-skill:4.3.2-api
         ports:
           - id: web
             port: 8080
