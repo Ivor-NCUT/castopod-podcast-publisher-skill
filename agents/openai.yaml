@@ -1,0 +1,4 @@
+interface:
+  display_name: "Castopod 播客发布"
+  short_description: "从 Codex 上传音频、封面与 Shownotes 并发布 RSS"
+  default_prompt: "使用 $castopod-podcast-publisher 将本地播客音频、封面和 Shownotes 发布到 Castopod。"
