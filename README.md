@@ -24,6 +24,10 @@ export CASTOPOD_USER_ID="1"
 export CASTOPOD_PODCAST_ID="1"
 ```
 
+An installed copy may keep non-secret instance values in
+`references/instance.md`; this path is ignored by Git. Keep the API password
+in the system keychain.
+
 The script creates a draft unless `--publish-now` or `--schedule` is supplied.
 
 ## Files
