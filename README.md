@@ -30,9 +30,25 @@ in the system keychain.
 
 The script creates a draft unless `--publish-now` or `--schedule` is supplied.
 
+## Validate a feed before distribution
+
+Podcast directories use the public owner email to verify control of a feed.
+In Castopod, edit the podcast and disable “Remove the owner email from the
+public RSS feed” before submitting the RSS URL.
+
+```bash
+python3 scripts/validate_rss.py \
+  "https://example.zeabur.app/@show/feed.xml"
+```
+
+The validator has no third-party dependencies. It checks the owner email,
+artwork, RSS episode metadata, enclosure MIME/length, and public byte-range
+access.
+
 ## Files
 
 - `SKILL.md`: Codex workflow and safety rules.
 - `scripts/publish_episode.sh`: deterministic Castopod API publisher.
+- `scripts/validate_rss.py`: RSS directory-compatibility validator.
 - `agents/openai.yaml`: Codex UI metadata.
 - `Dockerfile`: minimal Zeabur image with REST API configuration enabled.

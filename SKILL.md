@@ -14,7 +14,11 @@ Publish once to Castopod, then let podcast platforms pull the updated RSS feed.
 3. Read connection values from environment variables. If `references/instance.md` exists, use its non-secret values and retrieve the password from the named system keychain entry. Never place passwords in commands, logs, skill files, Git, or final responses.
 4. Run `scripts/publish_episode.sh`.
 5. Return the episode ID and Castopod response. Retrieve the podcast `feed_url` from `GET /api/rest/v1/podcasts/{id}` when the user needs the RSS address.
-6. Verify the public episode or RSS URL after publication.
+6. Before submitting the feed to a directory, make sure Castopod's “Remove the
+   owner email from the public RSS feed” setting is disabled. Directories such
+   as Xiaohongshu use `<itunes:owner><itunes:email>` for ownership verification.
+7. Run `python3 scripts/validate_rss.py "$FEED_URL"` and verify the public
+   episode URL after publication.
 
 ## Required environment
 
@@ -64,9 +68,23 @@ bash scripts/publish_episode.sh \
 
 Use `--dry-run` to validate inputs without uploading.
 
+## Validate RSS for distribution
+
+```bash
+python3 scripts/validate_rss.py \
+  "https://example.zeabur.app/@show/feed.xml"
+```
+
+The validator uses only the Python standard library. It checks RSS 2.0
+structure, owner email, artwork, episode metadata, enclosure MIME/length, and
+public byte-range access.
+
 ## Boundaries
 
 - Treat publishing as an external write. Default to a draft when intent is ambiguous.
 - Do not upload the same episode separately to every platform. Submit the Castopod RSS feed once to each platform, then publish only through Castopod.
 - Do not change, delete, or republish existing episodes unless the user explicitly requests it.
+- Owner email must remain public while a platform is verifying RSS ownership.
+  It may be hidden again only after verification if the platform no longer
+  needs to re-read it.
 - Castopod accepts MP3/M4A audio, JPG/JPEG/PNG covers, Markdown Shownotes, VTT/SRT transcripts, and JSON chapters. This script intentionally covers the current audio, cover, and Shownotes workflow only.
