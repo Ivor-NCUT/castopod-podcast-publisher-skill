@@ -11,7 +11,7 @@ Publish once to Castopod, then let podcast platforms pull the updated RSS feed.
 
 1. Locate the audio, optional square cover, and Markdown Shownotes.
 2. Confirm title, episode type, and whether the user wants a draft, immediate publication, or a schedule.
-3. Read connection values from environment variables. Never place passwords in commands, logs, skill files, Git, or final responses.
+3. Read connection values from environment variables. If `references/instance.md` exists, use its non-secret values and retrieve the password from the named system keychain entry. Never place passwords in commands, logs, skill files, Git, or final responses.
 4. Run `scripts/publish_episode.sh`.
 5. Return the episode ID and Castopod response. Retrieve the podcast `feed_url` from `GET /api/rest/v1/podcasts/{id}` when the user needs the RSS address.
 6. Verify the public episode or RSS URL after publication.
