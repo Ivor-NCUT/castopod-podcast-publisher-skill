@@ -92,6 +92,7 @@ done
 
 base_url=${CASTOPOD_BASE_URL%/}
 create_args=(
+  --http1.1
   --silent --show-error --fail-with-body
   --user "${CASTOPOD_API_USERNAME}:${CASTOPOD_API_PASSWORD}"
   --request POST "${base_url}/api/rest/v1/episodes"
@@ -119,6 +120,7 @@ if [[ "$publication" == draft ]]; then
 fi
 
 publish_args=(
+  --http1.1
   --silent --show-error --fail-with-body
   --user "${CASTOPOD_API_USERNAME}:${CASTOPOD_API_PASSWORD}"
   --request POST "${base_url}/api/rest/v1/episodes/${episode_id}/publish"
